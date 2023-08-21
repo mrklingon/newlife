@@ -32,20 +32,24 @@ function cntNbors (num: number) {
     return tot
 }
 function ShowAll () {
-    for (let index7 = 0; index7 <= Edge; index7++) {
-        for (let index6 = 0; index6 <= Edge; index6++) {
+    let index6: number;
+while (index7 <= Edge) {
+        index6 = 0
+        while (index6 <= Edge) {
             showUni(index6, index7)
             basic.pause(50)
+            index6 += 1
         }
         basic.showIcon(IconNames.Yes)
         music.playTone(262, music.beat(BeatFraction.Quarter))
         index7 = 3 + index7
+        index7 += 1
     }
     basic.pause(100)
-    showUni(0, 0)
+    showUni(cx, cy)
 }
-function findCell (num: number, num2: number) {
-    total = num + num2
+function findCell (num2: number, num22: number) {
+    total = num2 + num22
     if (total < 0) {
         total = total + UNIall
     }
@@ -55,29 +59,32 @@ function findCell (num: number, num2: number) {
     return total
 }
 function doGen () {
-    for (let index2 = 0; index2 <= unisize; index2++) {
+    while (index2 <= unisize) {
         cellGen(index2, cntNbors(index2))
+        index2 += 1
     }
     froze = 1
-    for (let index3 = 0; index3 <= unisize; index3++) {
+    while (index3 <= unisize) {
         if (Next[index3] != Universe[index3]) {
             froze = 0
         }
         Universe[index3] = Next[index3]
+        index3 += 1
     }
     if (1 == froze) {
         basic.showIcon(IconNames.SmallSquare)
         music.startMelody(music.builtInMelody(Melodies.PowerDown), MelodyOptions.Once)
     }
     Chk_Extinct()
-    showUni(0, 0)
+    showUni(cx, cy)
 }
 function Chk_Extinct () {
     Pop = 0
-    for (let index4 = 0; index4 <= unisize; index4++) {
+    while (index4 <= unisize) {
         if (1 == Universe[index4]) {
             Pop += 1
         }
+        index4 += 1
     }
     if (Pop == 0) {
         basic.showIcon(IconNames.No)
@@ -109,8 +116,16 @@ function showUni (X1: number, Y2: number) {
 input.onButtonPressed(Button.A, function () {
     doGen()
 })
+input.onGesture(Gesture.TiltLeft, function () {
+    cx += -1
+    if (cx < 0) {
+        cx = 0
+    }
+    showUni(cx, cy)
+})
 input.onButtonPressed(Button.AB, function () {
-    clrUni()
+    let index5: number;
+clrUni()
     pattern = 1 + pattern
     if (3 < pattern) {
         pattern = 0
@@ -135,17 +150,20 @@ input.onButtonPressed(Button.AB, function () {
         setXY(2, 4)
     }
     if (2 == pattern) {
-        for (let index5 = 0; index5 <= diam - 1; index5++) {
+        index5 = 0
+        while (index5 <= diam - 1) {
             setXY(2, index5)
+            index5 += 1
         }
     }
     showUni(0, 0)
 })
 input.onButtonPressed(Button.B, function () {
-    for (let index52 = 0; index52 <= unisize; index52++) {
+    while (index52 <= unisize) {
         if (8 < randint(0, 10)) {
             Universe[index52] = 1
         }
+        index52 += 1
     }
     showUni(0, 0)
 })
@@ -160,24 +178,40 @@ input.onGesture(Gesture.Shake, function () {
 function setXY (nx: number, ny: number) {
     Universe[nx + ny * diam] = 1
 }
+input.onGesture(Gesture.TiltRight, function () {
+    cx += 1
+    if (cx > diam - 4) {
+        cx = diam - 4
+    }
+    showUni(cx, cy)
+})
 input.onLogoEvent(TouchButtonEvent.Touched, function () {
     ShowAll()
 })
-function findCoord (num: number) {
-    sy = Math.trunc(num / diam)
-    sx = num % diam
+function findCoord (num3: number) {
+    sy = Math.trunc(num3 / diam)
+    sx = num3 % diam
 }
 function clrUni () {
-    for (let index10 = 0; index10 <= unisize; index10++) {
+    while (index10 <= unisize) {
         Universe[index10] = 0
+        index10 += 1
     }
 }
+let index10 = 0
 let sx = 0
 let sy = 0
+let index52 = 0
 let uplace = 0
+let index4 = 0
 let Pop = 0
+let index3 = 0
 let froze = 0
+let index2 = 0
 let total = 0
+let cy = 0
+let cx = 0
+let index7 = 0
 let nxt = 0
 let val = 0
 let Next: number[] = []
