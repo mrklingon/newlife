@@ -26,7 +26,7 @@ def cntNbors(num: number):
         tot = tot + Universe[findCell(num, neighbors[index])]
     return tot
 def ShowAll():
-    index7 = 0
+    global index6, index7
     while index7 <= Edge:
         index6 = 0
         while index6 <= Edge:
@@ -38,7 +38,7 @@ def ShowAll():
         index7 = 3 + index7
         index7 += 1
     basic.pause(100)
-    showUni(cx, cy)
+    showUni(0, 0)
 def findCell(num2: number, num22: number):
     global total
     total = num2 + num22
@@ -48,13 +48,11 @@ def findCell(num2: number, num22: number):
         total = total - UNIall
     return total
 def doGen():
-    global froze
-    index2 = 0
+    global index2, froze, index3
     while index2 <= unisize:
         cellGen(index2, cntNbors(index2))
         index2 += 1
     froze = 1
-    index3 = 0
     while index3 <= unisize:
         if Next[index3] != Universe[index3]:
             froze = 0
@@ -65,11 +63,10 @@ def doGen():
         music.start_melody(music.built_in_melody(Melodies.POWER_DOWN),
             MelodyOptions.ONCE)
     Chk_Extinct()
-    showUni(cx, cy)
+    showUni(0, 0)
 def Chk_Extinct():
-    global Pop
+    global Pop, index4
     Pop = 0
-    index4 = 0
     while index4 <= unisize:
         if 1 == Universe[index4]:
             Pop += 1
@@ -102,7 +99,7 @@ def on_button_pressed_a():
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
 def on_button_pressed_ab():
-    global pattern
+    global pattern, index5
     clrUni()
     pattern = 1 + pattern
     if 3 < pattern:
@@ -132,7 +129,7 @@ def on_button_pressed_ab():
 input.on_button_pressed(Button.AB, on_button_pressed_ab)
 
 def on_button_pressed_b():
-    index52 = 0
+    global index52
     while index52 <= unisize:
         if 8 < randint(0, 10):
             Universe[index52] = 1
@@ -162,16 +159,24 @@ def findCoord(num3: number):
     sy = int(num3 / diam)
     sx = num3 % diam
 def clrUni():
-    index10 = 0
+    global index10
     while index10 <= unisize:
         Universe[index10] = 0
         index10 += 1
+index10 = 0
 sx = 0
 sy = 0
+index52 = 0
+index5 = 0
 uplace = 0
+index4 = 0
 Pop = 0
+index3 = 0
 froze = 0
+index2 = 0
 total = 0
+index6 = 0
+index7 = 0
 nxt = 0
 val = 0
 Next: List[number] = []
@@ -211,8 +216,6 @@ images.create_big_image("""
     . # # . . . . # # .
     . # # . . . . . . .
     """).scroll_image(1, 200)
-cx = 0
-cy = 0
 basic.show_leds("""
     . . . . .
     . . . . .

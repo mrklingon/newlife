@@ -32,24 +32,20 @@ function cntNbors (num: number) {
     return tot
 }
 function ShowAll () {
-    let index6: number;
-while (index7 <= Edge) {
-        index6 = 0
-        while (index6 <= Edge) {
+    for (let index7 = 0; index7 <= Edge; index7++) {
+        for (let index6 = 0; index6 <= Edge; index6++) {
             showUni(index6, index7)
             basic.pause(50)
-            index6 += 1
         }
         basic.showIcon(IconNames.Yes)
         music.playTone(262, music.beat(BeatFraction.Quarter))
         index7 = 3 + index7
-        index7 += 1
     }
     basic.pause(100)
     showUni(cx, cy)
 }
-function findCell (num2: number, num22: number) {
-    total = num2 + num22
+function findCell (num: number, num2: number) {
+    total = num + num2
     if (total < 0) {
         total = total + UNIall
     }
@@ -59,17 +55,15 @@ function findCell (num2: number, num22: number) {
     return total
 }
 function doGen () {
-    while (index2 <= unisize) {
+    for (let index2 = 0; index2 <= unisize; index2++) {
         cellGen(index2, cntNbors(index2))
-        index2 += 1
     }
     froze = 1
-    while (index3 <= unisize) {
+    for (let index3 = 0; index3 <= unisize; index3++) {
         if (Next[index3] != Universe[index3]) {
             froze = 0
         }
         Universe[index3] = Next[index3]
-        index3 += 1
     }
     if (1 == froze) {
         basic.showIcon(IconNames.SmallSquare)
@@ -80,11 +74,10 @@ function doGen () {
 }
 function Chk_Extinct () {
     Pop = 0
-    while (index4 <= unisize) {
+    for (let index4 = 0; index4 <= unisize; index4++) {
         if (1 == Universe[index4]) {
             Pop += 1
         }
-        index4 += 1
     }
     if (Pop == 0) {
         basic.showIcon(IconNames.No)
@@ -116,6 +109,13 @@ function showUni (X1: number, Y2: number) {
 input.onButtonPressed(Button.A, function () {
     doGen()
 })
+input.onGesture(Gesture.LogoUp, function () {
+    cy += -1
+    if (cy < 0) {
+        cy = 0
+    }
+    showUni(cx, cy)
+})
 input.onGesture(Gesture.TiltLeft, function () {
     cx += -1
     if (cx < 0) {
@@ -124,8 +124,9 @@ input.onGesture(Gesture.TiltLeft, function () {
     showUni(cx, cy)
 })
 input.onButtonPressed(Button.AB, function () {
-    let index5: number;
-clrUni()
+    cx = 0
+    cy = 0
+    clrUni()
     pattern = 1 + pattern
     if (3 < pattern) {
         pattern = 0
@@ -150,20 +151,17 @@ clrUni()
         setXY(2, 4)
     }
     if (2 == pattern) {
-        index5 = 0
-        while (index5 <= diam - 1) {
+        for (let index5 = 0; index5 <= diam - 1; index5++) {
             setXY(2, index5)
-            index5 += 1
         }
     }
-    showUni(0, 0)
+    showUni(cx, cy)
 })
 input.onButtonPressed(Button.B, function () {
-    while (index52 <= unisize) {
+    for (let index52 = 0; index52 <= unisize; index52++) {
         if (8 < randint(0, 10)) {
             Universe[index52] = 1
         }
-        index52 += 1
     }
     showUni(0, 0)
 })
@@ -185,33 +183,31 @@ input.onGesture(Gesture.TiltRight, function () {
     }
     showUni(cx, cy)
 })
+input.onGesture(Gesture.LogoDown, function () {
+    cy += 1
+    if (cy > diam - 4) {
+        cy = diam - 4
+    }
+    showUni(cx, cy)
+})
 input.onLogoEvent(TouchButtonEvent.Touched, function () {
     ShowAll()
 })
-function findCoord (num3: number) {
-    sy = Math.trunc(num3 / diam)
-    sx = num3 % diam
+function findCoord (num: number) {
+    sy = Math.trunc(num / diam)
+    sx = num % diam
 }
 function clrUni () {
-    while (index10 <= unisize) {
+    for (let index10 = 0; index10 <= unisize; index10++) {
         Universe[index10] = 0
-        index10 += 1
     }
 }
-let index10 = 0
 let sx = 0
 let sy = 0
-let index52 = 0
 let uplace = 0
-let index4 = 0
 let Pop = 0
-let index3 = 0
 let froze = 0
-let index2 = 0
 let total = 0
-let cy = 0
-let cx = 0
-let index7 = 0
 let nxt = 0
 let val = 0
 let Next: number[] = []
@@ -223,6 +219,10 @@ let UNIall = 0
 let unisize = 0
 let Edge = 0
 let diam = 0
+let cy = 0
+let cx = 0
+cx = 0
+cy = 0
 diam = 21
 Edge = diam - 4
 unisize = diam * diam - 1
